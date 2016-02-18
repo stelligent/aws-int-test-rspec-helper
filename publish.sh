@@ -10,9 +10,9 @@ fi
 git config --global user.email "build@build.com"
 git config --global user.name "build"
 
-set +e
+set +ex
 echo :rubygems_api_key: ${rubygems_api_key} > ~/.gem/credentials
-set -e
+set -ex
 chmod 0600 ~/.gem/credentials
 
 current_version=$(ruby -e 'tags=`git tag -l v0\.0\.*`' \
