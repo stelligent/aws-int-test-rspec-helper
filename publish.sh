@@ -26,7 +26,6 @@ else
 fi
 
 sed -i "s/0\.0\.0/${new_version}/g" aws-int-test-rspec-helper.gemspec
-cat opendelivery.gemspec
 
 #on circle ci - head is ambiguous for reasons that i don't grok
 #we haven't made the new tag and we can't if we are going to annotate
@@ -42,7 +41,7 @@ else
   log_rev_range="v0.0.${current_version}..${head}"
 fi
 
-issues=$(git log v0.4.${current_version}..${head} --oneline | awk '{print $2}' | grep '^#' | uniq)
+issues=$(git log v0.0.${current_version}..${head} --oneline | awk '{print $2}' | grep '^#' | uniq)
 
 git tag -a v${new_version} -m "Issues with commits, not necessarily closed: ${issues}"
 
