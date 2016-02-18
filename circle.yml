@@ -6,3 +6,6 @@ deployment:
       - ./publish.sh
 
 
+machine:
+  ruby:
+    version: 2.3
