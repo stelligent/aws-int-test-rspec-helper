@@ -41,7 +41,7 @@ else
   log_rev_range="v0.0.${current_version}..${head}"
 fi
 
-issues=$(git log v0.0.${current_version}..${head} --oneline | awk '{print $2}' | grep '^#' | uniq)
+issues=$(git log ${log_rev_range} --oneline | awk '{print $2}' | grep '^#' | uniq)
 
 git tag -a v${new_version} -m "Issues with commits, not necessarily closed: ${issues}"
 
