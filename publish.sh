@@ -31,8 +31,8 @@ sed -i "s/0\.0\.0/${new_version}/g" aws-int-test-rspec-helper.gemspec
 #we haven't made the new tag and we can't if we are going to annotate
 head=$(git log -n 1 --oneline | awk '{print $1}')
 
-echo "Remember! You need to start your commit messages with CS-xx, where x is the issue number your commit resolves."
 issue_prefix='^#'
+echo "Remember! You need to start your commit messages with #{issue_prefix}x, where x is the issue number your commit resolves."
 
 if [[ ${current_version} == nil ]];
 then
@@ -41,7 +41,7 @@ else
   log_rev_range="v0.0.${current_version}..${head}"
 fi
 
-issues=$(git log ${log_rev_range} --oneline | awk '{print $2}' | grep '^#' | uniq)
+issues=$(git log ${log_rev_range} --oneline | awk '{print $2}' | grep "${issue_prefix}" | uniq)
 
 git tag -a v${new_version} -m "Issues with commits, not necessarily closed: ${issues}"
 
