@@ -35,7 +35,9 @@ module AwsIntTestRspecHelper
                                           capabilities: %w{CAPABILITY_IAM})
 
     #need to provide more details to the waiter - or deal with more stack outcomes?
-    created_stack.wait_until(max_attempts:100, delay:15) {|stack| stack.stack_status == 'CREATE_COMPLETE' }
+    created_stack.wait_until(max_attempts:100, delay:15) do |stack|
+      stack.stack_status.match /COMPLETE/ or stack.stack_status.match /FAIL/
+    end
 
     @stack_outputs = created_stack.outputs.inject({}) do |hash, output|
       hash[output.output_key] = output.output_value
