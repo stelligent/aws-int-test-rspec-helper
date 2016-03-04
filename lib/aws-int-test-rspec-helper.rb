@@ -1,6 +1,7 @@
 require 'aws-sdk'
 require 'cfndsl'
 require 'rspec'
+require 'tempfile'
 
 module AwsIntTestRspecHelper
 
