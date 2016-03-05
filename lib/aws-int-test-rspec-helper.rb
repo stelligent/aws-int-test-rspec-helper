@@ -3,12 +3,32 @@ require 'cfndsl'
 require 'rspec'
 require 'tempfile'
 
+##
+# Some methods to make integration testing AWS SDK code a bit more convenient.
+# Easily create AWS resources with cfndsl specifications as part of RSpec tests.
+#
 module AwsIntTestRspecHelper
 
+  ##
+  # Delete the specified Cloudformation stack by name
+  #
   def cleanup(cloudformation_stack_name)
     Aws::CloudFormation::Client.new.delete_stack(stack_name: cloudformation_stack_name)
   end
 
+  ##
+  # Creates a Cloudformation stack.
+  #
+  # To elaborate, this will create a stack from a cfndsl file and wait until the stack creation is
+  # completed (or failed).  You can optionally parameterise the stack with a Hash.
+  # The outputs of the stack are available by referencing #stack_outputs.  The return value
+  # of the method is the full stack name that is created.
+  #
+  # * +stack_name+ - a stem for the name of the stack to create.  the final name of the stack
+  #                  will be this concatenated with a timestamp
+  # * +path_to_stack+ - this is the path to a cfndsl file to create the stack from
+  # * +bindings+ - this is an optional Hash of variables that fill in variables in the cfndsl stack
+  #                this is how you can parameterise the stack (without Parameters)
   def stack(stack_name:,
             path_to_stack:,
             bindings: nil)
@@ -48,7 +68,9 @@ module AwsIntTestRspecHelper
     full_stack_name
   end
 
-
+  ##
+  # Returns a Hash of the Cloudformation stack outputs
+  #
   def stack_outputs
     @stack_outputs
   end
