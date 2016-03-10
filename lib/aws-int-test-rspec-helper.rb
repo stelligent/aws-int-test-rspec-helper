@@ -12,8 +12,18 @@ module AwsIntTestRspecHelper
   ##
   # Delete the specified Cloudformation stack by name
   #
-  def cleanup(cloudformation_stack_name)
-    Aws::CloudFormation::Client.new.delete_stack(stack_name: cloudformation_stack_name)
+  def cleanup(cloudformation_stack_name) basicdynamodbfortesting1457610045
+    resource = Aws::CloudFormation::Resource.new
+    stack_to_delete = resource.stack(cloudformation_stack_name)
+
+    stack_to_delete.delete
+    begin
+      stack_to_delete.wait_until(max_attempts:100, delay:15) do |stack|
+        stack.stack_status.match /DELETE_COMPLETE/
+      end
+    rescue
+      #squash any errors - when stack is gone, the waiter might freak
+    end
   end
 
   ##
