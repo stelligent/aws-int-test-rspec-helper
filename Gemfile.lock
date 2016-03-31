@@ -2,19 +2,19 @@ PATH
   remote: .
   specs:
     aws-int-test-rspec-helper (0.0.0)
-      aws-sdk (= 2.2.17)
+      aws-sdk (= 2.2.31)
       cfndsl (= 0.4.0)
       rspec (= 3.4.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    aws-sdk (2.2.17)
-      aws-sdk-resources (= 2.2.17)
-    aws-sdk-core (2.2.17)
+    aws-sdk (2.2.31)
+      aws-sdk-resources (= 2.2.31)
+    aws-sdk-core (2.2.31)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.2.17)
-      aws-sdk-core (= 2.2.17)
+    aws-sdk-resources (2.2.31)
+      aws-sdk-core (= 2.2.31)
     cfndsl (0.4.0)
     diff-lcs (1.2.5)
     jmespath (1.1.3)
