@@ -78,6 +78,30 @@ module AwsIntTestRspecHelper
     full_stack_name
   end
 
+  def vanilla_stack(stack_name:,
+                    path_to_template:)
+
+    full_stack_name = "#{stack_name}#{Time.now.to_i}"
+
+    resource = Aws::CloudFormation::Resource.new
+    created_stack = resource.create_stack(stack_name: full_stack_name,
+                                          template_body: IO.read(File.expand_path(path_to_template)),
+                                          disable_rollback: true,
+                                          capabilities: %w{CAPABILITY_IAM})
+
+    #need to provide more details to the waiter - or deal with more stack outcomes?
+    created_stack.wait_until(max_attempts:100, delay:15) do |stack|
+      stack.stack_status.match /COMPLETE/ or stack.stack_status.match /FAIL/
+    end
+
+    @stack_outputs = created_stack.outputs.inject({}) do |hash, output|
+      hash[output.output_key] = output.output_value
+      hash
+    end
+
+    full_stack_name
+  end
+
   ##
   # Returns a Hash of the Cloudformation stack outputs
   #
