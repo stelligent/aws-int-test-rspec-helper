@@ -79,7 +79,8 @@ module AwsIntTestRspecHelper
   end
 
   def vanilla_stack(stack_name:,
-                    path_to_template:)
+                    path_to_template:,
+                    parameters: [])
 
     full_stack_name = "#{stack_name}#{Time.now.to_i}"
 
@@ -87,7 +88,8 @@ module AwsIntTestRspecHelper
     created_stack = resource.create_stack(stack_name: full_stack_name,
                                           template_body: IO.read(File.expand_path(path_to_template)),
                                           disable_rollback: true,
-                                          capabilities: %w{CAPABILITY_IAM})
+                                          capabilities: %w{CAPABILITY_IAM},
+                                          parameters: parameters)
 
     #need to provide more details to the waiter - or deal with more stack outcomes?
     created_stack.wait_until(max_attempts:100, delay:15) do |stack|
