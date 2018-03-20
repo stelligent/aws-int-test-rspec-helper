@@ -1,6 +1,4 @@
 import boto3
-from s3bucket import S3Bucket
-
 from aloisius import Stack
 import aloisius
 import time
